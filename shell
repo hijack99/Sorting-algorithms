@@ -1,0 +1,63 @@
+var CreateArray = (...lengths) => lengths.map(length => (
+Array.from({ length }, () => Math.floor(Math.random() * 3000000))
+));
+function compareNumeric(a, b) { //отсортированный массив
+    if (a > b) return 1;
+    if (a < b) return -1;
+}
+var array8 = [];
+for (var k= 0, t=100; k<t; k++){
+    array8.push(Math.round(Math.random() * 3000000))
+};
+array8.sort(compareNumeric);
+
+console.time("ShellSort")
+function ShellSort(array) {
+    var countOuter = 0;
+    var countInner = 0;
+    var countSwap = 0;
+    function createGaps(a) {
+        var gapss = [];
+        for (var i = 0, j = a.length, t; 1 <= (t = Math.floor()); i +=1) {
+            gapss[i] = t;
+
+            if (t === 1) {
+                break;
+            }
+        }
+
+        if (gapss[i] !== 1) {
+            gapss.push(1);
+        }
+        return gapss;
+    }
+    var gaps = createGaps(array);
+    for(var g = 0; g < gaps.length; g++) {
+        var gap = gaps[g];
+        for(var i = gap; i < array.length; i++) {
+            countOuter++;
+            var temp = array[i];
+            for(var j = i; j >= gap && array[j - gap] > temp; j -= gap) {
+                countInner++;
+                countSwap++;
+                array[j] = array[j - gap];
+            }
+            array[j] = temp;
+        }
+    }
+    console.log('outer:', countOuter, 'inner:', countInner, 'swap:', countSwap);
+}
+console.timeEnd("ShellSort")
+
+var ShellSortMultipleArrays = (arrs) => {
+    arrs.forEach(arr => {
+        console.time("ShellSort");
+    ShellSort(arr);
+    console.timeEnd("ShellSort");
+});
+};
+
+
+ShellSort(array8.slice())
+var arrays = CreateArray(100,500,1000,5000,10000,50000,100000);
+ShellSortMultipleArrays(arrays);
