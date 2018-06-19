@@ -1,0 +1,57 @@
+var CreateArray = (...lengths) => lengths.map(length => (
+Array.from({ length }, () => Math.floor(Math.random() * 3000000))
+));
+function compareNumeric(a, b) {
+    if (a > b) return 1;
+    if (a < b) return -1;
+}
+var arr = [];
+for (var k= 0, t=100; k<t; k++){
+    arr.push(Math.round(Math.random() * 3000000))
+};
+arr.sort(compareNumeric);
+console.time("mergeSort")
+function mergeSort (arr) {
+    if (arr.length === 1) {
+
+        return arr
+    }
+
+    const middle = Math.floor(arr.length / 2)
+    const left = arr.slice(0, middle)
+    const right = arr.slice(middle)
+
+    return merge(
+        mergeSort(left),
+        mergeSort(right)
+    )
+}
+
+function merge (left, right) {
+    let result = []
+    let indexLeft = 0
+    let indexRight = 0
+
+    while (indexLeft < left.length && indexRight < right.length) {
+        if (left[indexLeft] < right[indexRight]) {
+            result.push(left[indexLeft])
+            indexLeft++
+        } else {
+            result.push(right[indexRight])
+            indexRight++
+        }
+    }
+
+    return result.concat(left.slice(indexLeft)).concat(right.slice(indexRight))
+}
+console.timeEnd("mergeSort")
+var mergeSortMultipleArrays = (arrs) => {
+    arrs.forEach(arr => {
+        console.time("mergeSort");
+    mergeSort(arr);
+    console.timeEnd("mergeSort");
+});
+};
+mergeSort(arr.slice());
+var arrays = CreateArray(100,500,1000,5000,10000,50000,100000);
+mergeSortMultipleArrays(arrays);
