@@ -1,0 +1,57 @@
+var CreateArray = (...lengths) => lengths.map(length => (
+Array.from({ length }, () => Math.floor(Math.random() * 3000000))
+));
+
+function Sorted(a, b) {
+    if (a > b) return 1;
+    if (a < b) return -1;
+}
+var array8 = [];
+for (var k= 0, t=100; k<t; k++){
+    array8.push(Math.round(Math.random() * 3000000))
+};
+array8.sort(Sorted);
+
+function swap(array, i, j) {
+    var temp = array[i];
+    array[i] = array[j];
+    array[j] = temp;
+}
+console.time("insertionSort")
+function insertionSort(array) {
+    var countOuter = 0;
+    var countInner = 0;
+    var countSwap = 0;
+
+    for(var i = 0; i < array.length; i++) {
+        countOuter++;
+        var min = i;
+        for(var j = i + 1; j < array.length; j++) {
+            countInner++;
+            if(array[j] < array[min]) {
+                min = j;
+            }
+        }
+        if(i !== min) {
+            countSwap++;
+            swap(array, i, min);
+        }
+    }
+
+    console.log('outer:', countOuter, 'inner:', countInner, 'swap:', countSwap);
+}
+console.timeEnd("insertionSort")
+
+var insertionSortMultipleArrays = (arrs) => {
+    arrs.forEach(arr => {
+        console.time("insertionSort");
+    insertionSort(arr);
+    console.timeEnd("insertionSort");
+});
+};
+
+
+insertionSort(array8.slice())
+var arrays = CreateArray(100,500,1000,5000,10000,50000,100000);
+insertionSortMultipleArrays(arrays);
+
