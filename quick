@@ -1,0 +1,65 @@
+var CreateArray = (...lengths) => lengths.map(length => (
+Array.from({ length }, () => Math.floor(Math.random() * 3000000))
+));
+function compareNumeric(a, b) {
+    if (a > b) return 1;
+    if (a < b) return -1;
+}
+var array8 = [];
+for (var k= 0, t=100; k<t; k++){
+    array8.push(Math.round(Math.random() * 3000000))
+};
+array8.sort(compareNumeric);
+
+var countOuter = 0;
+var countInner = 0;
+var countSwap = 0;
+
+function resetCounters() {
+    countOuter = 0;
+    countInner = 0;
+    countSwap = 0;
+}
+
+//  pivot первый элемент массива
+
+console.time("quickSortBasic")
+
+function quickSortBasic(array) {
+    countOuter++;
+    if(array.length < 2) {
+        return array;
+    }
+
+    var pivot = array[0];
+    var lesser = [];
+    var greater = [];
+
+    for(var i = 1; i < array.length; i++) {
+        countInner++;
+        if(array[i] < pivot) {
+            lesser.push(array[i]);
+        } else {
+            greater.push(array[i]);
+        }
+    }
+
+    return quickSortBasic(lesser).concat(pivot, quickSortBasic(greater));
+}
+
+console.timeEnd("quickSortBasic")
+
+var quickSortMultipleArrays = (arrs) => {
+    arrs.forEach(arr => {
+        console.time("quickSortBasic");
+    quickSortBasic(arr);
+    console.timeEnd("quickSortBasic");
+});
+};
+quickSortBasic(array8.slice());
+console.log('outer:', countOuter, 'inner:', countInner, 'swap:', countSwap);
+resetCounters();
+var arrays = CreateArray(100,500,1000,5000,10000,50000,100000);
+quickSortMultipleArrays(arrays);
+
+
